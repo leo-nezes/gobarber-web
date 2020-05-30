@@ -23,7 +23,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const token = localStorage.getItem('@GoBarber:token');
     const user = localStorage.getItem('@GoBarber:user');
 
-    if(token && user) {
+    if (token && user) {
       return { token, user: JSON.parse(user) };
     }
 
@@ -33,15 +33,15 @@ const AuthProvider: React.FC = ({ children }) => {
   const signIn = useCallback(async ({ email, password }) => {
     const response = await api.post('sessions', {
       email,
-      password
+      password,
     });
 
-      const { token, user } = response.data;
+    const { token, user } = response.data;
 
-      localStorage.setItem('@GoBarber:token', token);
-      localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+    localStorage.setItem('@GoBarber:token', token);
+    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
 
-      setData({ token, user });
+    setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
@@ -61,7 +61,7 @@ const AuthProvider: React.FC = ({ children }) => {
 function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
 
-  if(!context) throw new Error('useAuth must be used within an AuthProvider');
+  if (!context) throw new Error('useAuth must be used within an AuthProvider');
 
   return context;
 }
