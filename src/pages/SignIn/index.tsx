@@ -29,59 +29,67 @@ const SignIn: React.FC = () => {
 
   const history = useHistory();
 
-  const handleSubmit = useCallback(async (data: SignInFormData) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSubmit = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().required('Senha obrigatória'),
-      });
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Senha obrigatória'),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      await signIn({
-        email: data.email,
-        password: data.password,
-      });
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
 
-      history.push('/dashboard');
-    } catch (error) {
-      if(error instanceof Yup.ValidationError){
-        const errors = getValidationErrors(error);
+        history.push('/dashboard');
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
 
-        formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors);
 
-        return;
+          return;
+        }
+
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description: 'Ocorreu um erro ao fazer login, cheque as credencias',
+        });
       }
-
-      addToast({
-        type: 'error',
-        title: 'Erro na autenticação',
-        description: 'Ocorreu um erro ao fazer login, cheque as credencias',
-      });
-    }
-  }, [signIn, addToast, history]);
+    },
+    [signIn, addToast, history],
+  );
 
   return (
     <Container>
       <Content>
         <AnimationContainer>
-          <img src={logoImg} alt="GoBarber"/>
+          <img src={logoImg} alt="GoBarber" />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Faça seu logon</h1>
 
-            <Input name="email" icon={FiMail} placeholder="E-mail"/>
-            <Input name="password" icon={FiLock} type="password" placeholder="Senha"/>
+            <Input name="email" icon={FiMail} placeholder="E-mail" />
+            <Input
+              name="password"
+              icon={FiLock}
+              type="password"
+              placeholder="Senha"
+            />
 
             <Button type="submit">Entrar</Button>
 
-            <a href="forgot">Esqueci minha senha</a>
+            <Link to="forgot-password">Esqueci minha senha</Link>
           </Form>
 
           <Link to="signup">
@@ -94,6 +102,6 @@ const SignIn: React.FC = () => {
       <Background />
     </Container>
   );
-}
+};
 
 export default SignIn;

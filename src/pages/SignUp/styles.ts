@@ -4,10 +4,10 @@ import { shade } from 'polished';
 import signUpBackgroundImg from '../../assets/sign-up-background.png';
 
 export const Container = styled.div`
-    height: 100vh;
+  height: 100vh;
 
-    display: flex;
-    align-items: stretch;
+  display: flex;
+  align-items: stretch;
 `;
 
 export const Content = styled.div`
@@ -45,24 +45,24 @@ export const AnimationContainer = styled.div`
     text-align: center;
 
     h1 {
-        margin-bottom: 24px;
+      margin-bottom: 24px;
     }
 
     a {
-        color: #F4ede8;
-        display: block;
-        margin-top: 24px;
-        text-decoration: none;
-        transition: color 0.2s;
+      color: #f4ede8;
+      display: block;
+      margin-top: 24px;
+      text-decoration: none;
+      transition: color 0.2s;
 
-        &:hover {
-            color: ${shade(0.2, '#F4ede8')}
-        }
+      &:hover {
+        color: ${shade(0.2, '#F4ede8')};
+      }
     }
   }
 
   > a {
-    color: #FF9000;;
+    color: #ff9000;
     display: block;
     margin-top: 24px;
     text-decoration: none;
@@ -72,17 +72,17 @@ export const AnimationContainer = styled.div`
     align-items: center;
 
     svg {
-        margin-right: 16px;
+      margin-right: 16px;
     }
 
     &:hover {
-        color: ${shade(0.2, '#FF9000')}
+      color: ${shade(0.2, '#FF9000')};
     }
   }
 `;
 
 export const Background = styled.div`
-    flex: 1;
-    background: url(${signUpBackgroundImg}) no-repeat center;
-    background-size: cover;
+  flex: 1;
+  background: url(${signUpBackgroundImg}) no-repeat center;
+  background-size: cover;
 `;
