@@ -11,8 +11,8 @@ export interface ToastMessage {
 }
 
 interface ToastContextData {
-	addToast(message: Omit<ToastMessage, 'id'>): void;
-	removeToast(id: string): void;
+  addToast(message: Omit<ToastMessage, 'id'>): void;
+  removeToast(id: string): void;
 }
 
 const ToastContext = createContext<ToastContextData>({} as ToastContextData);
@@ -20,38 +20,42 @@ const ToastContext = createContext<ToastContextData>({} as ToastContextData);
 const ToastProvider: React.FC = ({ children }) => {
   const [messages, setMessages] = useState<ToastMessage[]>([]);
 
-	const addToast = useCallback(({ type, title, description }: Omit<ToastMessage, 'id'>) => {
-    const id = uuid();
+  const addToast = useCallback(
+    ({ type, title, description }: Omit<ToastMessage, 'id'>) => {
+      const id = uuid();
 
-    const toast = {
-      id,
-      type,
-      title,
-      description,
-    };
+      const toast = {
+        id,
+        type,
+        title,
+        description,
+      };
 
-    setMessages((state) => [...state, toast]);
-    // Em uma função set, de um estado, os valores antigos da variável são enviados como parâmetros quando uma função é passada.
-	}, []);
+      setMessages((state) => [...state, toast]);
+      // Em uma função set, de um estado, os valores antigos da variável são enviados como parâmetros quando uma função é passada.
+    },
+    [],
+  );
 
-	const removeToast = useCallback((id: string) => {
-		setMessages((state) => state.filter((message) => message.id !== id));
-	}, []);
+  const removeToast = useCallback((id: string) => {
+    setMessages((state) => state.filter((message) => message.id !== id));
+  }, []);
 
-	return (
-		<ToastContext.Provider value={{ addToast, removeToast }}>
-			{children}
-			<ToastContainer messages={messages}/>
-		</ToastContext.Provider>
-	);
+  return (
+    <ToastContext.Provider value={{ addToast, removeToast }}>
+      {children}
+      <ToastContainer messages={messages} />
+    </ToastContext.Provider>
+  );
 };
 
 function useToast(): ToastContextData {
-	const context = useContext(ToastContext);
+  const context = useContext(ToastContext);
 
-	if (!context) throw new Error('useToast must be used within an ToastProvider');
+  if (!context)
+    throw new Error('useToast must be used within an ToastProvider');
 
-	return context;
+  return context;
 }
 
 export { ToastProvider, useToast };
