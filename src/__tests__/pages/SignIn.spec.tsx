@@ -1,18 +1,31 @@
-import React, { Children } from 'react';
-import { render } from '@testing-library/react';
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import SignIn from '../../pages/SignIn';
+
+const mockedHistoryPush = jest.fn();
 
 jest.mock('react-router-dom', () => {
   return {
-    useHistory: jest.fn(),
+    useHistory: () => ({
+      push: mockedHistoryPush,
+    }),
     Link: ({ children }: { children: React.ReactNode }) => children,
   };
 });
 
 describe('SignIn Page', () => {
   it('should be able to sign in', () => {
-    const { debug } = render(<SignIn />);
+    const { getByPlaceholderText, getByText } = render(<SignIn />);
 
-    debug();
+    const emailField = getByPlaceholderText('E-mail');
+    const passwordField = getByPlaceholderText('Senha');
+    const buttonField = getByText('Entrar');
+
+    fireEvent.change(emailField, { target: { value: 'johndoe@email.com' } });
+    fireEvent.change(passwordField, { target: { value: '123456' } });
+
+    fireEvent.click(buttonField);
+
+    expect(mockedHistoryPush).toHaveBeenCalledWith('/dashboard');
   });
 });
