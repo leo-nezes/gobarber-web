@@ -1,9 +1,27 @@
 import { renderHook } from '@testing-library/react-hooks';
+import MookAdapter from 'axios-mock-adapter';
+
 import { useAuth, AuthProvider } from '../../hooks/auth';
+import api from '../../services/api';
+
+const apiMock = new MookAdapter(api);
 
 describe('Auth hook', () => {
-  it('should be able to sign in', () => {
-    const { result } = renderHook(() => useAuth(), {
+  it('should be able to sign in', async () => {
+    const apiResponse = {
+      user: {
+        id: 'user-id',
+        name: 'John Doe',
+        email: 'johndoe@example.com.br',
+      },
+      token: 'token-id',
+    };
+
+    apiMock.onPost('sessions').reply(200, apiResponse);
+
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+
+    const { result, waitForNextUpdate } = renderHook(() => useAuth(), {
       wrapper: AuthProvider,
     });
 
@@ -12,6 +30,16 @@ describe('Auth hook', () => {
       password: '123456',
     });
 
+    await waitForNextUpdate();
+
+    expect(setItemSpy).toHaveBeenCalledWith(
+      '@GoBarber:token',
+      apiResponse.token,
+    );
+    expect(setItemSpy).toHaveBeenCalledWith(
+      '@GoBarber:user',
+      JSON.stringify(apiResponse.user),
+    );
     expect(result.current.user.email).toEqual('johndoe@example.com.br');
   });
 });
