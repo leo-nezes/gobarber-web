@@ -26,7 +26,7 @@ Intalação dos seguntes softwares:
 
 ### 2. Configurando ambiente
 
-2.2 Aplicação
+2.1 Aplicação
 
 Colnar o projeto e baixar as dependências de desenvolvimento:
 
