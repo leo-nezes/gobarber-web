@@ -28,7 +28,7 @@ Intalação dos seguntes softwares:
 
 2.1 Aplicação
 
-Colnar o projeto e baixar as dependências de desenvolvimento:
+Clonar o projeto e baixar as dependências de desenvolvimento:
 
 `$ yarn`
 
