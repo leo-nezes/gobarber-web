@@ -1,10 +1,8 @@
 <h1 align="center">
-  🚧 Documentação em desenvolvimento 🚧
-</h1>
-
-<h1 align="center">
   Gobarber Web
 </h1>
+
+![gobarber-web](https://github.com/leo-nezes/images-for-readme/blob/master/gobarber-web/login-gobarber-web.png)
 
 O Gobarber é uma aplicação web desenvolvida com ReactJS para realizar cadastro de usuários e provedores de serviços, marcação e consulta de agendamentos.
 
